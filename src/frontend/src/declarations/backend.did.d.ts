@@ -10,7 +10,47 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface _SERVICE {}
+export interface Booking {
+  'id' : bigint,
+  'status' : BookingStatus,
+  'checkIn' : string,
+  'owner' : Principal,
+  'createdAt' : bigint,
+  'guestName' : string,
+  'email' : string,
+  'checkOut' : string,
+  'phone' : string,
+  'roomType' : RoomType,
+  'numberOfGuests' : bigint,
+}
+export type BookingStatus = { 'cancelled' : null } |
+  { 'pending' : null } |
+  { 'confirmed' : null };
+export type RoomType = { 'deluxe' : null } |
+  { 'standard' : null } |
+  { 'family' : null };
+export interface UserProfile { 'name' : string }
+export type UserRole = { 'admin' : null } |
+  { 'user' : null } |
+  { 'guest' : null };
+export interface _SERVICE {
+  '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'createBooking' : ActorMethod<
+    [string, string, string, string, string, RoomType, bigint],
+    bigint
+  >,
+  'deleteBooking' : ActorMethod<[bigint], undefined>,
+  'getAllBookings' : ActorMethod<[], Array<Booking>>,
+  'getBooking' : ActorMethod<[bigint], [] | [Booking]>,
+  'getCallerBookings' : ActorMethod<[], Array<Booking>>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'isCallerAdmin' : ActorMethod<[], boolean>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'updateBookingStatus' : ActorMethod<[bigint, BookingStatus], undefined>,
+}
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];
 export declare const idlFactory: IDL.InterfaceFactory;

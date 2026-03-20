@@ -1,30 +1,39 @@
 # Vishwpandhari Yatrinivas
 
 ## Current State
-Single index.html file with inline CSS and JS. Images used external Unsplash URLs.
+Existing static website with HTML/CSS/JS, blue/gold theme, local images, booking form with WhatsApp integration, gallery, rooms, testimonials. No backend, no authentication, no data persistence.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Separate style.css file
-- Separate script.js file
-- /assets folder with local images (hero.jpg, about.jpg, room1-3.jpg, gallery1-3.jpg)
-- Booking form section with WhatsApp integration
-- Back-to-top button
-- Check-in/check-out date validation
-- Facilities section
+- User registration and login with role-based access (admin vs. guest)
+- Booking form that persists data to backend database
+- Admin panel to view, manage all bookings
+- Guest dashboard to view own bookings
+- On-screen booking confirmation (no email -- not on paid plan)
 
 ### Modify
-- index.html links to external style.css and script.js
-- All image paths changed to relative local paths (assets/hero.jpg etc.)
-- Color theme: Deep Blue (#1e3a8a), Sky Blue (#38bdf8), Gold (#facc15)
+- Rebuild frontend as React app with same blue/gold visual theme
+- Booking form connected to backend API instead of WhatsApp only
 
 ### Remove
-- Inline CSS and JS from HTML
-- External Unsplash image URLs
+- Static HTML/CSS/JS files (replaced by React)
+- WhatsApp-only booking (replaced by real backend booking)
 
 ## Implementation Plan
-1. Generate 8 local images and place in assets/
-2. Write index.html with all 9 sections linking to style.css and script.js
-3. Write style.css with responsive design, color theme, grid/flex layouts
-4. Write script.js with smooth scroll, form validation, WhatsApp button, back-to-top
+1. Select `authorization` Caffeine component for role-based auth
+2. Generate Motoko backend with:
+   - User roles: admin, guest
+   - Booking data model: name, email, phone, checkIn, checkOut, roomType, guests, status, userId, createdAt
+   - Create booking (authenticated guests)
+   - Get own bookings (guests)
+   - Get all bookings (admin only)
+   - Update booking status (admin only)
+   - Delete booking (admin only)
+3. Build React frontend:
+   - Login / Register pages
+   - Home page with hero, about, rooms, amenities, gallery sections
+   - Booking form page (authenticated)
+   - Guest dashboard: view own bookings
+   - Admin panel: view/manage all bookings, update status
+   - Blue (#1e3a8a) / Sky Blue (#38bdf8) / Gold (#facc15) theme
